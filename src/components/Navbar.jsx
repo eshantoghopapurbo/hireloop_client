@@ -87,7 +87,7 @@ export default function Navbar() {
                                     </Link>}
 
                             <Link
-                                href="/register"
+                                href="/auth/signup"
                                 className="rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 px-6 py-3 font-medium text-white transition hover:opacity-90"
                             >
                                 Get Started
@@ -134,7 +134,7 @@ export default function Navbar() {
                                 </Link>
 
                                 <Link
-                                    href="/register"
+                                    href="/auth/signup"
                                     className="rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 py-3 text-center font-medium text-white"
                                 >
                                     Get Started
