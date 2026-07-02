@@ -15,7 +15,7 @@ const  RecruiterDashboardHomePage =() => {
     }
 
     const recruiterStats = [
-    { title: 'Total Job Posts', value: '48', icon:Briefcase },
+    { title: 'Total Job Posts', value: '38', icon:Briefcase },
     { title: 'Total Applicants', value: '1,284', icon: Persons },
     { title: 'Active Jobs', value: '18', icon: Thunderbolt },
     { title: 'Jobs Closed', value: '32', icon: CircleCheck },
