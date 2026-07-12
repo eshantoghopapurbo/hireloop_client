@@ -6,10 +6,10 @@ import Link from "next/link";
 
 export function DashboardSideber() {
   const navItems = [
-    { icon: House,href:"/dashboard/recruiter", label: "Home" },
-    { icon: Magnifier,href:"/dashboard/recruiter/jobs" , label: "jobs" },
-    { icon: Bell, href:"/dashboard/recruiter/jobs/new" , label: "Create A job" },
-    { icon: Briefcase, href:"/dashboard/recruiter/company" , label: "Company Profile" },
+    { icon: House, href: "/dashboard/recruiter", label: "Home" },
+    { icon: Magnifier, href: "/dashboard/recruiter/jobs", label: "jobs" },
+    { icon: Bell, href: "/dashboard/recruiter/jobs/new", label: "Create A job" },
+    { icon: Briefcase, href: "/dashboard/recruiter/company", label: "Company Profile" },
     { icon: Envelope, label: "Messages" },
     { icon: Person, label: "Profile" },
     { icon: Gear, label: "Settings" },
@@ -30,7 +30,7 @@ export function DashboardSideber() {
 
   return (
     <>
-      <aside className="hidden w-64 lg:block bg-black-800 text-white min-h-screen p-4">
+      <aside className="hidden lg:block w-64 shrink-0 bg-zinc-900 border-r border-zinc-800 min-h-screen p-4">
         {navContent}
       </aside>
       <Drawer>

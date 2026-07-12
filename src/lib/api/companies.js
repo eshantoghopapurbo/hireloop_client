@@ -1,6 +1,6 @@
-// import { serverFetch } from "../core/server";
+import { serverFetch } from "../core/server";
 
  
-//   export const getRecruiterCompany =async (recruiterID)=> {
-//     return serverFetch(`api/my/companies?recruiterID =${recruiterID}`)  
-//   }
+  export const getRecruiterCompany =async (recruiterId)=> {
+    return serverFetch(`/api/my/companies?recruiterId =${recruiterId}`)  
+  }

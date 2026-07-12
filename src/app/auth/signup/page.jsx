@@ -39,8 +39,9 @@ export default function SignupPage() {
 
   const handleRoleChange = (value) => {
   setFormData((prev) => ({ ...prev, role: value }));
-};
-
+  console.log("Selected role:", value);
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -53,12 +54,13 @@ export default function SignupPage() {
     }
 
     try {
+      console.log("Form Data:", formData);
       const { data, error: authError } = await signUp.email({
         name: formData.name,
         email: formData.email,
         password: formData.password,
         role:formData.role,
-        callbackURL:"/",
+        callbackURL:"/dashboard/recruiter" ,
       });   
       console.log(data);
 
@@ -159,7 +161,7 @@ export default function SignupPage() {
           </TextField>
            <div className="flex flex-col gap-4">
       <Label className="text-white">Subscription plan</Label>
-      <RadioGroup defaultValue="seeker" name="role" orientation="horizontal" onValueChange={handleRoleChange}> 
+      <RadioGroup defaultValue="seeker" name="role" orientation="horizontal" onChange={handleRoleChange}> 
         <Radio value="seeker">
             <Radio.Control>
               <Radio.Indicator />

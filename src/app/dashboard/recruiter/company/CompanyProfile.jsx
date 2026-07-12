@@ -3,8 +3,12 @@
 import React, { useState } from "react";
 import { Form, Fieldset, Label, Select, ListBox, Button } from "@heroui/react";
 import { Upload, MapPin, ChevronDown, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { toast } from "react-toastify";
+import { createCompany } from "@/lib/action/companies";
 
-export default function CompanyProfile() {
+export default function CompanyProfile({ recruiter, recruiterCompany }) {
+    const [company,setCompany] =useState(recruiterCompany);
     const [formData, setFormData] = useState({
         companyName: "",
         industry: "",
@@ -12,7 +16,8 @@ export default function CompanyProfile() {
         location: "",
         employeeCount: "",
         logo: "",
-        description: ""
+        description: "",
+        recruiterId: recruiter?.id || "",
     });
 
     const [errors, setErrors] = useState({});
@@ -42,13 +47,13 @@ export default function CompanyProfile() {
 
         try {
             // Replace with your actual ImgBB Client API key
-            const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMAGE_API;
+            const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMAGE_UPLOAD_API;
             const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
                 method: "POST",
                 body: data
             });
             const resData = await response.json();
-          
+
             if (resData.success) {
                 setFormData((prev) => ({ ...prev, logo: resData.data.url }));
             } else {
@@ -63,7 +68,6 @@ export default function CompanyProfile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         // Basic Validation matching your design
         let tempErrors = {};
         if (!formData.companyName) tempErrors.companyName = "Company name is required";
@@ -74,15 +78,25 @@ export default function CompanyProfile() {
             setErrors(tempErrors);
             return;
         }
-
         setSubmitting(true);
         console.log("Submitting fully mapped enterprise structural payload to DB:", formData);
 
-        // Mocking Database Save latency
-        setTimeout(() => {
+        try {
+            const payload = await createCompany(formData);
+
+            if (payload.insertedId) {
+                console.log("Company created successfully:", payload);
+                toast.success("Company registered successfully!");
+            } else {
+                toast.error("Failed to create company.");
+            }
+        } catch (error) {
+            console.error("Submission Error:", error);
+            toast.error("Something went wrong!");
+        } finally {
             setSubmitting(false);
-            alert("Company registered successfully!");
-        }, 1500);
+        }
+        // Mocking Database Save latency
     };
 
     return (
@@ -139,8 +153,8 @@ export default function CompanyProfile() {
                             <div className="flex flex-col w-full relative">
                                 <Label className="text-xs text-neutral-400 mb-1.5 pl-1 font-medium">Website URL</Label>
                                 <div className="flex items-center w-full bg-[#18181b] border border-neutral-800 focus-within:border-neutral-600 rounded-xl overflow-hidden transition h-[48px]">
-                            <span className="bg-neutral-900/50 text-neutral-500 text-sm px-3.5 h-full flex items-center border-r border-neutral-800/80">https://</span>
-                                <input
+                                    <span className="bg-neutral-900/50 text-neutral-500 text-sm px-3.5 h-full flex items-center border-r border-neutral-800/80">https://</span>
+                                    <input
                                         type="text"
                                         name="websiteUrl"
                                         placeholder="www.company.com"
@@ -201,7 +215,11 @@ export default function CompanyProfile() {
                                         {uploading ? (
                                             <Loader2 className="w-4 h-4 text-neutral-400 animate-spin" />
                                         ) : formData.logo ? (
-                                            <img src={formData.logo} alt="Logo" className="w-full h-full object-cover rounded-lg" />
+                                            <Image
+                                                src={formData.logo} alt="Logo"
+                                                width={32}
+                                                height={32}
+                                                className=" object-cover rounded-lg" />
                                         ) : (
                                             <Upload className="w-4 h-4 text-neutral-400" />
                                         )}
