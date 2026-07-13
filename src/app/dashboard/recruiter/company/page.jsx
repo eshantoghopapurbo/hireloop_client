@@ -13,4 +13,4 @@ const CompanyPage = async () => {
     );  
 };
 
-export default CompanyPage;
+export default CompanyPage; 

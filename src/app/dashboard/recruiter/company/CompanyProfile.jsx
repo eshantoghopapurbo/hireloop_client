@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { createCompany } from "@/lib/action/companies";
 
 export default function CompanyProfile({ recruiter, recruiterCompany }) {
-    const [company,setCompany] =useState(recruiterCompany);
+    const [company, setCompany] = useState(recruiterCompany);
     const [formData, setFormData] = useState({
         companyName: "",
         industry: "",

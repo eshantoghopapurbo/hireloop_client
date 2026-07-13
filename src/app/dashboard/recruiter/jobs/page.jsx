@@ -19,10 +19,13 @@ import React from 'react';
 import { Table, Chip, Button, Tooltip } from "@heroui/react";
 // Gravity / Lucide Icons
 import { Video, Edit3, Trash2 } from "lucide-react";
+import { getRecruiterCompany } from '@/lib/api/companies';
+import { getUserSession } from '@/lib/core/session';
 
 const RecruiterJobs = async () => {
-    const companyId = 'comp_123456'; // todo
-    const jobs = await getCompanyJobs(companyId) || [];
+     const user = await getUserSession();
+     const company = await getRecruiterCompany();
+    const jobs = await getCompanyJobs(company._id) || [];
     console.log("jobs for company", jobs);
 
     return (

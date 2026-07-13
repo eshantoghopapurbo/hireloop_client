@@ -89,8 +89,7 @@ export default function PostJobForm({ company }) {
             companyName: company.name,
             companyLogo: company.logo,
             status: 'active',
-            isPubliclyVisible:true,
-            createdAt: new Date().toISOString()
+            isPubliclyVisible: true,
         };
         // console.log("Submitting job post:", finalPayload);
 
