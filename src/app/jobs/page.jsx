@@ -1,3 +1,4 @@
+
 import JobsCard from "@/components/jobs/JobsCard";
 import { getJobs } from "@/lib/api/jobs";
 
@@ -16,10 +17,19 @@ const jobData = {
 export default async function Page() {
     const jobs =await getJobs();
 
-  return (
-     <div className="p-8 bg-zinc-950 min-h-screen flex justify-center items-center">
-      <h2 className="text-red-500">{jobs.length}</h2>
-      <JobsCard job={jobs[15]} />
-     </div>
+return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-6">Available Jobs</h1>
+      
+      {/* 3-column grid layout */}
+      <div className=" container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+       {jobs && jobs.map ((jobsItem) => <JobsCard 
+       key={jobsItem._id}
+       job={jobsItem}
+       ></JobsCard>
+
+       )}
+      </div>
+    </div>
   );
 }

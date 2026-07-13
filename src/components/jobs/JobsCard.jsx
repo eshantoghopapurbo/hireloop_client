@@ -3,16 +3,19 @@ import { Pin, Briefcase, Ban, ArrowRight } from "@gravity-ui/icons";
 import Image from "next/image";
 
 export default function JobsCard({ job }) {
+    const hasImage = job.companyLogo && job.companyLogo.trim() !== "";
     return (
-        <Card className="container mx-auto max-w-[400px] bg-[#121212] text-white p-4 border border-gray-800 m-10">
+        <Card className="container mx-auto max-w-[400px] bg-[#121212] text-white p-4 border border-gray-800 m-1">
             <CardHeader className="flex gap-4">
-                <Image
-                    alt={job.jobTitle}
-                    height={50}
-                    src={job.companyLogo}
-                    width={50}
-                    className="rounded-xl"
-                />
+                {hasImage && (
+                    <Image
+                        alt={job.jobTitle}
+                        height={50}
+                        src={job.companyLogo}
+                        width={50}
+                        className="rounded-xl"
+                    />
+                )}
                 <div className="flex flex-col">
                     <h2 className="text-xl font-bold">{job.jobTitle}</h2>
                     <p className="text-sm text-gray-400">{job.jobCategory}</p>
