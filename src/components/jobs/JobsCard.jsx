@@ -53,9 +53,9 @@ export default function JobsCard({ job }) {
                     as="a"
                     href={`/apply/${job._id?.$oid || ""}`}
                     className="text-white font-semibold p-0 bg-transparent hover:opacity-80 transition-opacity"
-                    endContent={<ArrowRight size={20} />}
+                    endContent={<ArrowRight size={20}  />}
                 >
-                    Apply Now
+                    Apply Now 
                 </Button>
             </CardFooter>
         </Card>
