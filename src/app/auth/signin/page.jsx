@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Card,
   CardHeader,
@@ -26,6 +26,9 @@ export default function SigninPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
+
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handleChange = (e) => {
@@ -49,21 +52,23 @@ export default function SigninPage() {
       const { data, error: authError } = await signIn.email({
         email: formData.email,
         password: formData.password,
-        // লগইন সফল হলে রিডাইরেক্ট করার জন্য সাধারণত callbackURL দেওয়া যায়
-        callbackURL: "/" 
       });
 
       if (authError) {
         setError(authError.message || "Invalid email or password.");
         return;
       }
+      else {
+        setSuccess("signed in successfully ! redirecting....");
+        // ফর্ম রিসেট করার জন্য এটি ব্যবহার করুন:
+        setFormData({
+          email: "",
+          password: "",
+        });
 
-      setSuccess("Logged in successfully! Redirecting...");
-      
-      // ড্যাশবোর্ড বা হোম পেজে রিডাইরেক্ট করার জন্য
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1500);
+        router.push(redirectTo);
+      }
+
 
     } catch (err) {
       console.error("Signin Error:", err);
@@ -109,8 +114,8 @@ export default function SigninPage() {
           <TextField>
             <div className="flex justify-between items-center mb-1">
               <Label>Password</Label>
-              <Link 
-                href="/auth/forgot-password" 
+              <Link
+                href="/auth/forgot-password"
                 className="text-xs text-primary hover:underline"
               >
                 Forgot password?
@@ -159,7 +164,7 @@ export default function SigninPage() {
 
         <div className="mt-6 text-center text-small text-zinc-500 dark:text-zinc-400">
           New too HireLoop?{" "}
-          <Link href="/auth/signup" className="text-primary hover:underline font-medium">
+          <Link href={`/auth/signup?redirect=${redirectTo}`} className="text-primary hover:underline font-medium">
             Sign Up
           </Link>
         </div>

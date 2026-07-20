@@ -12,36 +12,43 @@ import {
   Label
 } from "@heroui/react";
 
-import {Description, Radio, RadioGroup} from "@heroui/react";
+import { Description, Radio, RadioGroup } from "@heroui/react";
 
 import { Eye, EyeSlash, Person, Envelope, ShieldCheck } from "@gravity-ui/icons";
 import { signUp } from "@/lib/auth-client";   // এটা ঠিক আছে
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SignupPage() {
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    role:"seeker",
+    role: "seeker",
   });
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
+  const toggleVisibility = () => setIsVisible(!isVisible);
   const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleRoleChange = (value) => {
-  setFormData((prev) => ({ ...prev, role: value }));
-  console.log("Selected role:", value);
+    setFormData((prev) => ({
+      ...prev,
+      role: value,
+      plan: value === "seeker" ? "seeker_free" : "recruiter_free",
+    }));
   };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -53,24 +60,28 @@ export default function SignupPage() {
       return;
     }
 
+    const plan = formData.role === "seeker" ? "seeker_free" : "recruiter_free";
+
     try {
       console.log("Form Data:", formData);
       const { data, error: authError } = await signUp.email({
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        role:formData.role,
-        callbackURL:"/dashboard/recruiter" ,
-      });   
+        role: formData.role,
+        plan,
+        callbackURL: "/dashboard/recruiter",
+      });
       console.log(data);
 
       if (authError) {
         setError(authError.message || "Signup failed.");
         return;
+      } else {
+        setSuccess("Account created successfully! Check your email.");
+        setFormData({ name: "", email: "", password: "", role: "" });
+        router.push(redirectTo);
       }
-
-      setSuccess("Account created successfully! Check your email.");
-      setFormData({ name: "", email: "", password: "", role: "" });
 
     } catch (err) {
       console.error("Signup Error:", err);
@@ -142,7 +153,7 @@ export default function SignupPage() {
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleInputChange}
-            className="text-zinc-900 dark:text-zinc-50 bg-transparent w-full focus:outline-none"
+                className="text-zinc-900 dark:text-zinc-50 bg-transparent w-full focus:outline-none"
               />
               <InputGroup.Suffix>
                 <button
@@ -159,27 +170,27 @@ export default function SignupPage() {
               </InputGroup.Suffix>
             </InputGroup>
           </TextField>
-           <div className="flex flex-col gap-4">
-      <Label className="text-white">Subscription plan</Label>
-      <RadioGroup defaultValue="seeker" name="role" orientation="horizontal" onChange={handleRoleChange}> 
-        <Radio value="seeker">
-            <Radio.Control>
-              <Radio.Indicator />
-            </Radio.Control>
-          <Radio.Content>
-         <Label className="text-white">job seeker</Label>
-          </Radio.Content>
-        </Radio>
-        <Radio value="recruiter">
-            <Radio.Control>
-              <Radio.Indicator />
-            </Radio.Control>
-             <Radio.Content>
-          <Label className="text-white" >Recruiter</Label>
-          </Radio.Content>        
-        </Radio>
-      </RadioGroup>
-    </div>
+          <div className="flex flex-col gap-4">
+            <Label className="text-white">Subscription plan</Label>
+            <RadioGroup defaultValue="seeker" name="role" orientation="horizontal" onChange={handleRoleChange}>
+              <Radio value="seeker">
+                <Radio.Control>
+                  <Radio.Indicator />
+                </Radio.Control>
+                <Radio.Content>
+                  <Label className="text-white">job seeker</Label>
+                </Radio.Content>
+              </Radio>
+              <Radio value="recruiter">
+                <Radio.Control>
+                  <Radio.Indicator />
+                </Radio.Control>
+                <Radio.Content>
+                  <Label className="text-white" >Recruiter</Label>
+                </Radio.Content>
+              </Radio>
+            </RadioGroup>
+          </div>
 
           {error && <div className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-950/30 rounded-xl">{error}</div>}
           {success && <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-950/30 rounded-xl">{success}</div>}
@@ -196,7 +207,7 @@ export default function SignupPage() {
 
         <div className="mt-6 text-center text-small text-zinc-500 dark:text-zinc-400">
           Already have an account?{" "}
-          <Link href="/auth/signin" className="text-primary hover:underline font-medium">
+          <Link href={`/auth/signin?redirect=${redirectTo}`} className="text-primary hover:underline font-medium">
             Sign In
           </Link>
         </div>

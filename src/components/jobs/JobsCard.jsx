@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardFooter, Button, Chip } from "@heroui/react";
 import { Pin, Briefcase, Ban, ArrowRight } from "@gravity-ui/icons";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function JobsCard({ job }) {
     const hasImage = job.companyLogo && job.companyLogo.trim() !== "";
@@ -49,14 +50,15 @@ export default function JobsCard({ job }) {
             </div>
 
             <CardFooter className="pt-4 border-t border-gray-800">
-                <Button
-                    as="a"
-                    href={`/apply/${job._id?.$oid || ""}`}
+                <Link
+                    href={`/jobs/${job._id}`}
                     className="text-white font-semibold p-0 bg-transparent hover:opacity-80 transition-opacity"
-                    endContent={<ArrowRight size={20}  />}
+                 
                 >
-                    Apply Now 
-                </Button>
+                  <div className="flex  items-center gap-3">
+                      Apply Now  <ArrowRight></ArrowRight>
+                  </div>
+                </Link>
             </CardFooter>
         </Card>
     );

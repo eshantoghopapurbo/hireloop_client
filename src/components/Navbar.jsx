@@ -27,11 +27,11 @@ export default function Navbar() {
         },
         {
             name: "Pricing",
-            href: "/pricing",
+            href: "/plans",
         },
     ];
     return (
-        <nav className="sticky top-0 z-50 px-4 py-5">
+        <nav className="sticky top-0 z-50 px-4 ">
             <div>
                 <header className="flex h-20 items-center justify-between rounded-3xl border border-white/10 bg-black/40 px-6 backdrop-blur-xl">
 

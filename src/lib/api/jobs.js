@@ -7,7 +7,11 @@ import { serverFetch } from "../core/server";
     return serverFetch("/api/jobs")
   }
 
- export const getCompanyJobs =async (companyId,status = "active") =>{
+  export const getJobsId =async (jobId) =>{
+    return serverFetch( `/api/jobs/${jobId}`)
+  }
+
+ export const getCompanyJobs =async (companyId,status = "active") => {
    const res =await fetch(`${baseUrl}/api/jobs?companyId=${companyId}&status=${status}`) 
     return res.json();
  } 
