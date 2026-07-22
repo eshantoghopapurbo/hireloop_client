@@ -23,8 +23,8 @@ import { getRecruiterCompany } from '@/lib/api/companies';
 import { getUserSession } from '@/lib/core/session';
 
 const RecruiterJobs = async () => {
-     const user = await getUserSession();
-     const company = await getRecruiterCompany();
+    const user = await getUserSession();
+    const company = await getRecruiterCompany();
     const jobs = await getCompanyJobs(company._id) || [];
     console.log("jobs for company", jobs);
 
@@ -163,83 +163,3 @@ const RecruiterJobs = async () => {
 };
 
 export default RecruiterJobs;
-
-
-
-// import { getCompanyJobs } from '@/lib/api/jobs';
-// import React from 'react';
-// import { Table, Chip, Button, Tooltip } from "@heroui/react";
-// import { Video, Edit3, Trash2 } from "lucide-react";
-
-// const RecruiterJobs = async () => {
-//     const companyId = 'comp_123456';
-//     const jobs = await getCompanyJobs(companyId) || [];
-
-//     return (
-//         <div className="w-full max-w-full p-4 md:p-6 bg-zinc-950 min-h-screen text-white overflow-hidden">
-//             {/* Header Section */}
-//             <div className="flex flex-col gap-1 pb-6">
-//                 <h2 className="text-2xl font-bold tracking-tight">Manage All Jobs</h2>
-//                 <p className="text-sm text-zinc-400">View, edit, and manage your active job listings.</p>
-//             </div>
-
-//             {/* Table Section */}
-//             <div className="w-full">
-//                 <Table aria-label="Company jobs table">
-//                     <Table.ScrollContainer>
-//                         <Table.Content className="w-full min-w-[700px]">
-//                             <Table.Header>
-//                                 <Table.Column isRowHeader>Job Title</Table.Column>
-//                                 <Table.Column>Location</Table.Column>
-//                                 <Table.Column>Salary</Table.Column>
-//                                 <Table.Column>Deadline</Table.Column>
-//                                 <Table.Column>Status</Table.Column>
-//                                 <Table.Column>Actions</Table.Column>
-//                             </Table.Header>
-
-//                             <Table.Body emptyContent="No jobs found for this company.">
-//                                 {jobs.map((job) => {
-//                                     const jobId = job._id?.$oid || job._id;
-//                                     return (
-//                                         <Table.Row key={jobId}>
-//                                             <Table.Cell>
-//                                                 <span className="font-semibold text-white">{job.jobTitle}</span>
-//                                             </Table.Cell>
-//                                             <Table.Cell>
-//                                                 {job.location} {job.isRemote && <span className="text-white-400 text-xs ml-1">(Remote)</span>}
-//                                             </Table.Cell>
-//                                             <Table.Cell>
-//                                                 {job.minSalary ? `${job.minSalary} - ${job.maxSalary} ${job.currency || 'USD'}` : "Not Specified"}
-//                                             </Table.Cell>
-//                                             <Table.Cell>{job.deadline}</Table.Cell>
-//                                             <Table.Cell>
-//                                                 <Chip color={job.status === "active" ? "success" : "danger"} size="sm">
-//                                                     {job.status || "Inactive"}
-//                                                 </Chip>
-//                                             </Table.Cell>
-//                                             <Table.Cell>
-//                                                 <div className="flex items-center gap-2">
-//                                                     <Tooltip content="Video Details">
-//                                                         <Button size="sm" variant="flat" color="primary"><Video className="w-4 h-4" /></Button>
-//                                                     </Tooltip>
-//                                                     <Tooltip content="Edit">
-//                                                         <Button size="sm" variant="flat"><Edit3 className="w-4 h-4" /></Button>
-//                                                     </Tooltip>
-//                                                     <Tooltip content="Delete">
-//                                                         <Button size="sm" variant="flat" className="text-red-400"><Trash2 className="w-4 h-4" /></Button>
-//                                                     </Tooltip>
-//                                                 </div>
-//                                             </Table.Cell>
-//                                         </Table.Row>
-//                                     );
-//                                 })}
-//                             </Table.Body>
-//                         </Table.Content>
-//                     </Table.ScrollContainer>
-//                 </Table>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default RecruiterJobs;

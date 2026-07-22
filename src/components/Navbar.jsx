@@ -30,6 +30,22 @@ export default function Navbar() {
             href: "/plans",
         },
     ];
+    
+    const dashboardLinks ={
+        seeker:"/dashboard/seeker",
+        recruiter:"/dashboard/recruiter",
+        admin:"/dashboard/admin"
+    }
+    
+    if(user?.email){
+        navLinks.push(
+            {
+                name:"Dashboard",
+                href: dashboardLinks [user?.role || "seeker"]
+            }
+        )
+    }
+
     return (
         <nav className="sticky top-0 z-50 px-4 ">
             <div>

@@ -7,7 +7,6 @@ const DashboardLayout = ({ children }) => {
   return (
     <div className="flex min-h-screen bg-black w-full overflow-x-hidden">
       <DashboardSideber />
-
       <main className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden"> 
         {children}
       </main>

@@ -24,6 +24,7 @@ const JobApply = ({ job, applicant }) => {
             applicantId:applicant?.id,
             applicantName: applicant?.name,
             applicantEmail: applicant?.email,
+            status: "applied",
 
             resumeLink: formData.get("resumeLink"),
             portfolio: formData.get("portfolio"),

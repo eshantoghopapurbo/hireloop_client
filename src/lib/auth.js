@@ -14,13 +14,19 @@ export const auth = betterAuth({
     // Optional: if you don't provide a client, database transactions won't be enabled.
     client
   }),
-  user:{
-    additionalFields:{
-      role:{
-        default:"seeker"
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",      
+        required: false,
+        defaultValue: "seeker",
+        input: false          
       },
-      plan:{
-        default:"seeker_free"
+      plan: {
+        type: "string",
+        required: false,
+        defaultValue: "seeker_free",
+        input: false
       }
     }
   }
